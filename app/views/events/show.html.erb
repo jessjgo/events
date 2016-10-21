@@ -1,0 +1,42 @@
+<!-- <h1>Events#show</h1>
+<p>Find me in app/views/events/show.html.erb</p>
+ -->
+<div id="container">
+		<button style="display: inline-block"><a href="/events" >Events Dashboard</a></button>
+		<hr>
+	<div id="event_info"  style="display: inline-block; margin-right: 400px;">
+		<h4><%= @event.name %></h4>
+		<p><%= @event.user.fname %> <%= @event.user.lname %></p>
+		<p>Date: <%= @event.event_date %></p>
+		<p>Location: <%= @event.location %></p>
+		<p>People who are joining the event: <%= @event_count %></p>
+		<hr>
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Location</th>
+				<th>State</th>
+			</tr>
+			<% @event_users_list.each do |user| %>
+			<tr>
+				<td><%= user.fname %> <%= user.lname %></td>
+				<td><%= user.location %> </td>
+				<td><%= user.state %></td>
+			</tr>
+			<% end %>
+		</table>		
+	</div>
+
+	<div id="comments" style="display: inline-block; vertical-align: top">
+		<b>Discussion about this event:</b>
+		<% @event_comment_list.each do |comment| %>
+			<p><%= comment.user.fname %> says: <%= comment.content %></p>
+			<hr>
+		<% end %>
+		<form action="/comments/<%= @event.id%>" method="post" style="display: inline-block;">
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+			<textarea rows="4" cols="50" id="content" name="content"></textarea><br>
+			<button type="submit">Submit Comment</button>
+		</form>
+	</div>
+</div>

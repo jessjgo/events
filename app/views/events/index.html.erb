@@ -1,0 +1,120 @@
+<!-- <h1>Events#index</h1>
+<p>Find me in app/views/events/index.html.erb</p>
+ -->
+<div id="container">
+	<button style="display: inline-block"><a href="/users/<%= @user.id %>" >Edit Profile</a></button>
+	<hr>
+	<h4>Welcome, <%= @user.fname %>!</h4>
+	
+	<div id="user_state_event">
+		<b>Here are the events in your state:</b>
+		<table id="my_state">
+			<tr>
+				<th>Name</th>
+				<th>Date</th>
+				<th>Location</th>
+				<th>Host</th>
+				<th>Action/Status</th>
+			</tr>
+			<% @my_events.each do |event| %>
+			<tr>
+				<td><a href="/events/<%= event.id %>"><%= event.name %></a></td>
+				<td><%= event.event_date %></td>
+				<td><%= event.location %></td>
+				<td><%= event.user.fname %></td>
+				<td>
+					<% if event.users_attending_it.include?(current_user) %>
+						<form action="/join" method="post" style="display: inline-block;">
+							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+							<input type="hidden" name="_method" value="delete">
+							<input type="hidden" name="event_id" value="<%= event.id %>">
+							<button type="submit" name="cancel">Cancel Join</button>
+						</form>
+					<% else %>
+						<form action="/join" method="post" style="display: inline-block;">
+							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+							<input type="hidden" name="event_id" value="<%= event.id %>">
+							<button type="submit" name="join">Join</button>
+						</form>					
+					<% end %>
+
+					<% if current_user == event.user %>
+						<form action="/events/<%= event.id %>" method="post" style="display: inline-block;">
+							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+							<input type="hidden" name="_method" value="delete">
+							<input type="submit" value="Delete">
+						</form>
+					<% end %>	
+				</td>
+			</tr>
+			<% end %>
+		</table>
+		<hr>
+		<hr>
+	</div>
+
+	<div id="other_state_events">
+		<b>Here are the events in other states:</b>
+		<table id="other_states">
+			<tr>
+				<th>Name</th>
+				<th>Date</th>
+				<th>Location</th>
+				<th>State</th>
+				<th>Host</th>
+				<th>Action/Status</th>
+			</tr>
+			<% @other_events.each do |event| %>
+			<tr>
+				<td><a href="/events/<%= event.id %>"><%= event.name %></a></td>
+				<td><%= event.event_date %></td>
+				<td><%= event.location %></td>
+				<td><%= event.state %></td>
+				<td><%= event.user.fname %></td>
+				<td>
+					<% if event.users_attending_it.include?(current_user) %>
+						<form action="/join" method="post" style="display: inline-block;">
+							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+							<input type="hidden" name="_method" value="delete">
+							<input type="hidden" name="event_id" value="<%= event.id %>">
+							<button type="submit" name="cancel">Cancel Join</button>
+						</form>
+					<% else %>
+						<form action="/join" method="post" style="display: inline-block;">
+							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+							<input type="hidden" name="event_id" value="<%= event.id %>">
+							<button type="submit" name="join">Join</button>
+						</form>					
+					<% end %>
+
+					<% if current_user == event.user %>
+						<form action="/events/<%= event.id %>" method="post" style="display: inline-block;">
+							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+							<input type="hidden" name="_method" value="delete">
+							<input type="submit" value="Delete">
+						</form>
+					<% end %>			
+				</td>
+			</tr>
+			<% end %>
+		</table>
+	</div>
+
+	<div id="add_event">
+		<h5>Add Event</h5>
+		<form action="/events" method="post">
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" >
+			<p>Name: <input type="text" name="name"></p>
+			<p>Date: <input type="date" name="event_date"></p>
+			<p style="display: inline-block;">Location: <input type="text" name="location"></p>
+			<p style="display: inline-block;">
+				<select name="state">
+					<option>WA</option>
+					<option>OR</option>
+					<option>CA</option>
+				</select>
+			</p>
+			<input type="submit" value="Add Event">
+		</form>
+	</div>
+</div>

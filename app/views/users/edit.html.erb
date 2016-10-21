@@ -1,0 +1,24 @@
+<!-- <h1>Users#edit</h1>
+<p>Find me in app/views/users/edit.html.erb</p>
+ -->
+<div id="user_profile">
+	<button style="display: inline-block"><a href="/events" >Events Dashboard</a></button>
+	<hr>
+	<h5>Edit Your Profile</h5>
+	<form action="/users/<%= @user.id %>" method="post">
+		<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+		<input type="hidden" name="_method" value="patch">
+		<p>First Name: <input type="text" name="fname" value="<%= @user.fname %>"></p>
+		<p>Last Name: <input type="text" name="lname" value="<%= @user.lname %>"></p>
+		<p>Email: <input type="email" name="email" value="<%= @user.email %>"></p>
+		<p style="display: inline-block;">Location: <input type="text" name="location" value="<%= @user.location %>"></p>
+		<p style="display: inline-block;">
+			<select name="state">
+				<option value="<%= @user.state %>"><%= @user.state %></option>
+				<option>OR</option>
+				<option>CA</option>
+			</select>
+		</p>
+		<input type="submit" value="Update Records">
+	</form>
+</div>
